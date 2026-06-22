@@ -1,428 +1,394 @@
 <!DOCTYPE html>
-<html class="no-js" lang="en">
-
-<!-- 
-    Templeate Used: https://github.com/RyanFitzgerald/devportfolio#setup-and-configuration
--->
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>My Portfolio</title>
-	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-	<link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
-    <link rel="stylesheet" href="libs/font-awesome/css/font-awesome.min.css">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/styles.css" rel="stylesheet">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Rishabh Agrawal — Production Engineer</title>
+<meta name="description" content="Rishabh Agrawal — Production Engineer at Meta. Reliability, scalability, and observability for large-scale infrastructure, increasingly at the intersection of infra and AI." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0b0e14;
+    --bg-soft: #11151f;
+    --card: #151a26;
+    --card-hover: #1a2130;
+    --border: #232b3a;
+    --text: #e6e9ef;
+    --muted: #9aa4b8;
+    --faint: #6b7488;
+    --accent: #5b9dff;
+    --accent-2: #7c5cff;
+    --accent-soft: rgba(91,157,255,0.12);
+    --glow: rgba(124,92,255,0.18);
+    --radius: 16px;
+    --maxw: 920px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+  ::selection { background: var(--accent); color: #fff; }
+
+  /* ambient background */
+  .bg-orbs { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; }
+  .orb.a { width: 480px; height: 480px; background: radial-gradient(circle, rgba(91,157,255,0.35), transparent 70%); top: -120px; right: -80px; }
+  .orb.b { width: 420px; height: 420px; background: radial-gradient(circle, rgba(124,92,255,0.30), transparent 70%); bottom: 10%; left: -120px; }
+
+  .wrap { position: relative; z-index: 1; max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+
+  /* nav */
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(12px);
+    background: rgba(11,14,20,0.72);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner { max-width: var(--maxw); margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+  .brand { font-weight: 700; letter-spacing: -0.02em; font-size: 1.05rem; }
+  .brand span { color: var(--accent); }
+  .nav-links { display: flex; gap: 26px; }
+  .nav-links a { color: var(--muted); font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  @media (max-width: 640px) { .nav-links { display: none; } }
+
+  /* hero */
+  header.hero { padding: 90px 0 70px; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.78rem;
+    color: var(--accent); background: var(--accent-soft);
+    border: 1px solid rgba(91,157,255,0.25); padding: 6px 14px; border-radius: 999px;
+    margin-bottom: 26px;
+  }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: #36d399; box-shadow: 0 0 0 0 rgba(54,211,153,0.6); animation: pulse 2s infinite; }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(54,211,153,0.5);} 70%{box-shadow:0 0 0 8px rgba(54,211,153,0);} 100%{box-shadow:0 0 0 0 rgba(54,211,153,0);} }
+  h1 { font-size: clamp(2.4rem, 6vw, 3.9rem); font-weight: 800; letter-spacing: -0.035em; line-height: 1.05; margin-bottom: 8px; }
+  .pronounce { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--faint); margin-bottom: 20px; }
+  .role { font-size: clamp(1.1rem, 2.6vw, 1.45rem); font-weight: 600; color: var(--muted); margin-bottom: 26px; }
+  .role b { color: var(--text); }
+  .lede { font-size: 1.08rem; color: var(--muted); max-width: 660px; margin-bottom: 34px; }
+  .lede strong { color: var(--text); font-weight: 600; }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn { display: inline-flex; align-items: center; gap: 9px; padding: 12px 22px; border-radius: 11px; font-weight: 600; font-size: 0.95rem; transition: transform 0.15s, background 0.2s, border-color 0.2s; border: 1px solid transparent; }
+  .btn.primary { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #fff; box-shadow: 0 8px 30px var(--glow); }
+  .btn.primary:hover { transform: translateY(-2px); }
+  .btn.ghost { background: var(--card); border-color: var(--border); color: var(--text); }
+  .btn.ghost:hover { background: var(--card-hover); border-color: var(--accent); transform: translateY(-2px); }
+
+  /* section */
+  section { padding: 56px 0; }
+  .sec-head { display: flex; align-items: center; gap: 14px; margin-bottom: 38px; }
+  .sec-head h2 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+  .sec-head .num { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--accent); }
+  .sec-head .line { flex: 1; height: 1px; background: linear-gradient(90deg, var(--border), transparent); }
+
+  /* about */
+  .about-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 36px; align-items: start; }
+  @media (max-width: 760px) { .about-grid { grid-template-columns: 1fr; } }
+  .about-grid p { color: var(--muted); margin-bottom: 16px; }
+  .about-grid p strong { color: var(--text); font-weight: 600; }
+  .facts { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; }
+  .fact { display: flex; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--border); font-size: 0.92rem; }
+  .fact:last-child { border-bottom: none; }
+  .fact .k { color: var(--faint); min-width: 78px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; padding-top: 2px; }
+  .fact .v { color: var(--text); }
+
+  /* experience timeline */
+  .timeline { position: relative; }
+  .job { position: relative; padding: 0 0 12px 28px; margin-bottom: 26px; border-left: 2px solid var(--border); }
+  .job:last-child { margin-bottom: 0; }
+  .job::before { content: ''; position: absolute; left: -7px; top: 4px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px var(--bg); }
+  .job.current::before { background: #36d399; }
+  .job-top { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 4px; }
+  .job-title { font-size: 1.12rem; font-weight: 700; }
+  .job-co { color: var(--accent); font-weight: 600; }
+  .job-meta { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--faint); }
+  .job ul { list-style: none; margin-top: 12px; }
+  .job li { position: relative; padding-left: 20px; color: var(--muted); font-size: 0.96rem; margin-bottom: 9px; }
+  .job li::before { content: '▹'; position: absolute; left: 0; color: var(--accent); }
+  .job li b { color: var(--text); font-weight: 600; }
+
+  /* skills */
+  .skill-groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
+  .skill-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; transition: border-color 0.2s, transform 0.2s; }
+  .skill-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+  .skill-card h3 { font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--faint); margin-bottom: 14px; font-weight: 600; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; background: var(--bg-soft); border: 1px solid var(--border); color: var(--text); padding: 5px 11px; border-radius: 8px; }
+
+  /* projects */
+  .proj-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
+  .proj { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s, border-color 0.2s; }
+  .proj:hover { transform: translateY(-4px); border-color: var(--accent); }
+  .proj .thumb { height: 140px; background: var(--bg-soft); background-size: cover; background-position: center; border-bottom: 1px solid var(--border); }
+  .proj .thumb.ph { display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #1a2130, #11151f); }
+  .proj .thumb.ph span { font-family: 'JetBrains Mono', monospace; color: var(--accent); font-size: 1.6rem; }
+  .proj-body { padding: 18px; display: flex; flex-direction: column; flex: 1; }
+  .proj-tag { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--accent); margin-bottom: 7px; }
+  .proj-body h3 { font-size: 1.02rem; font-weight: 700; margin-bottom: 8px; }
+  .proj-body p { color: var(--muted); font-size: 0.88rem; flex: 1; margin-bottom: 14px; }
+  .proj-link { font-size: 0.85rem; font-weight: 600; color: var(--accent); display: inline-flex; align-items: center; gap: 6px; }
+
+  /* education */
+  .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 640px) { .edu-grid { grid-template-columns: 1fr; } }
+  .edu { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; }
+  .edu h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 4px; }
+  .edu .deg { color: var(--accent); font-weight: 500; margin-bottom: 8px; font-size: 0.95rem; }
+  .edu .when { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--faint); }
+
+  /* contact */
+  .contact { text-align: center; padding: 70px 0 40px; }
+  .contact h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 14px; }
+  .contact p { color: var(--muted); max-width: 480px; margin: 0 auto 30px; }
+  .social-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .social { display: inline-flex; align-items: center; gap: 9px; padding: 12px 20px; background: var(--card); border: 1px solid var(--border); border-radius: 11px; font-weight: 600; font-size: 0.92rem; transition: transform 0.15s, border-color 0.2s, color 0.2s; }
+  .social:hover { transform: translateY(-2px); border-color: var(--accent); color: var(--accent); }
+
+  footer { text-align: center; padding: 30px 0 50px; color: var(--faint); font-size: 0.82rem; }
+  footer .mono { font-family: 'JetBrains Mono', monospace; }
+
+  /* reveal */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } .orb { display: none; } }
+</style>
 </head>
-
 <body>
-    <div id="mobile-menu-open" class="shadow-large">
-        <i class="fa fa-bars" aria-hidden="true"></i>
+<div class="bg-orbs"><div class="orb a"></div><div class="orb b"></div></div>
+
+<nav>
+  <div class="nav-inner">
+    <div class="brand">Rishabh<span>.</span></div>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
     </div>
-    <!-- End #mobile-menu-toggle -->
-    <header>
-        <div id="mobile-menu-close">
-            <span>Close</span> <i class="fa fa-times" aria-hidden="true"></i>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow"><span class="dot"></span> Production Engineer · Meta</div>
+    <h1>Rishabh Agrawal</h1>
+    <div class="pronounce">/ ˈrɪʃəb / — "Rishab," like <em>Bishop</em></div>
+    <div class="role">I build <b>rate-limiting and capacity infrastructure</b> that keeps large-scale systems reliable — and squeezes the most out of every GPU and host.</div>
+    <p class="lede">Production Engineer at <strong>Meta</strong>, working on the <strong>rate-limiting platform (RIM)</strong> that protects <strong>100% of Meta's infra services</strong>. My focus is <strong>reliability, scalability, and automation</strong>: config canaries and health checks that stop outages before they start, real-time alerting across the fleet, and capacity work that maximizes resource utilization for compute-hungry workloads — including <strong>model-training infrastructure on external GPU clouds</strong>.</p>
+    <div class="cta-row">
+      <a class="btn primary" href="#contact">Get in touch →</a>
+      <a class="btn ghost" href="https://www.linkedin.com/in/rishabh-agrawal94" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn ghost" href="https://github.com/ssrishabh96" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </header>
+
+  <section id="about" class="reveal">
+    <div class="sec-head"><span class="num">01</span><h2>About</h2><span class="line"></span></div>
+    <div class="about-grid">
+      <div>
+        <p>I'm a Production Engineer focused on <strong>reliability, scalability, and automation</strong> for infrastructure that operates at enormous scale. My work lives in the layer most people never see — the rate-limiting, capacity, and observability machinery that keeps services healthy under heavy load.</p>
+        <p>At Meta I work on the <strong>RIM rate-limiting platform</strong> that protects 100% of the company's infra services. I build the safety and automation around it — <strong>config canaries, health checks, self-service onboarding, automated SLO provisioning, and real-time alerting</strong> — so the platform scales without scaling the operational burden.</p>
+        <p>A growing part of my work is <strong>capacity efficiency for compute-intensive workloads</strong>: extending our rate-limiting hosts onto external GPU clouds and using host stacking and service-side optimization to <strong>maximize resource utilization for model-training infrastructure</strong>. That intersection — keeping AI-scale infra reliable while getting the most out of every host — is exactly where I want to keep building.</p>
+      </div>
+      <div class="facts">
+        <div class="fact"><span class="k">role</span><span class="v">Production Engineer @ Meta</span></div>
+        <div class="fact"><span class="k">based</span><span class="v">Bay Area, California</span></div>
+        <div class="fact"><span class="k">focus</span><span class="v">Reliability · Scale · Infra + AI</span></div>
+        <div class="fact"><span class="k">core</span><span class="v">Python · C++ · Distributed systems</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience" class="reveal">
+    <div class="sec-head"><span class="num">02</span><h2>Experience</h2><span class="line"></span></div>
+    <div class="timeline">
+
+      <div class="job current">
+        <div class="job-top">
+          <div><span class="job-title">Production Engineer</span> · <span class="job-co">Meta</span></div>
+          <span class="job-meta">Jul 2022 — Present · Menlo Park, CA</span>
         </div>
-        <ul id="menu" class="shadow">
-            <li>
-                <a href="#about">About</a>
-            </li>
-            <li>
-                <a href="#experience">Experience</a>
-            </li>
-            <li>
-                <a href="#education">Education</a>
-            </li>
-            <li>
-                <a href="#projects">Projects</a>
-            </li>
-            <li>
-                <a href="#skills">Skills</a>
-            </li>
-            <li>
-                <a href="#contact">Contact</a>
-            </li>
-        </ul>
-    </header>
-    <!-- End header -->
-
-    <div id="lead">
-        <div id="lead-content">
-            <h1>Rishabh Agrawal</h1>
-            <h3> <i>(Pronounciation: Rishab like Bishop)</i> </h3>
-            <h2>Production Engineer @Meta </h2>
-            <a href="/Rishabh_Agrawal_Resume.pdf" target="_blank" class="btn-rounded-white" >Resume</a>
-        </div>
-        <!-- End #lead-content -->
-
-        <div id="lead-overlay"></div>
-
-        <div id="lead-down">
-            <span>
-                <i class="fa fa-chevron-down" aria-hidden="true"></i>
-            </span>
-        </div>
-        <!-- End #lead-down -->
-    </div>
-    <!-- End #lead -->
-
-    <div id="about">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <h2 class="heading">About Me</h2>
-                </div>
-                <div class="col-md-8" >
-                    <p align="justify">
-                        I am an engineer who likes to build. Once I create design, plan, I execute that plan and make it happen.
-                        <br><br>
-
-						I like to solve digital challenges while learning new technologies, methodologies, and tools along the way. With an eye for detail, the motive to improvise the Software Development Life Cycle (SDLC) process efficient and improve the end-users' experience. The best way to guarantee a great user experience is to start from the user/customer and work your way backwards.
-                        <br>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End #about -->
-
-    <div id="experience" class="background-alt">
-        <h2 class="heading">Experience</h2>
-        <div id="experience-timeline">
-
-            <div data-date="JUL 2022 - PRESENT">
-                <h3>Meta </h3>
-                <h4>Production Engineer</h4>
-                <p>
-                    <ul>
-                        <li> 
-                        	WhatsApp Business Messaging: designed, developed and integrated Monitor Service to measure customer latency and setup real-time actionable alerts
-                        </li>
-                        <li>
-							Added features to Monitor Service monitoring and alerting on all API endpoint collection for WhatsApp Business customers
-						</li>
-						<li>
-							Work with WhatsApp XFN partners and create load-tests script, to ensure canary is stable in prod
-						</li>
-                    </ul>
-                </p>
-    </div>
-    
-            <div data-date="JAN 2022 – JUL 2022">
-                <h3>UiPath </h3>
-                <h4>Software Engineer</h4>
-                <p>
-                    <ul>
-                        <li> 
-                        	Design, develop and maintain import and export endpoints for Integrations Service`
-                        </li>
-                        <li>
-							Refactored the infrastructure to deploy on-demand AWS hosts for internal Publishing elements AWS
-						</li>
-						<li>
-							Integrated mutaiton with >91% coverage and work on locales and real-time translation to expand user-base in multi regions
-						</li>
-						<li>
-							Redefine the protobuf schemas to handle compatibility and interoperability with global users
-						</li>
-                    </ul>
-                </p>
-    </div>
-
-            <div data-date="SEP 2020 – JAN 2022">
-                <h3>Amazon.com, Inc. </h3>
-                <h4>Software Engineer</h4>
-                <p>
-                    <ul>
-                        <li> 
-                        	Work with the internal Amazon Broadcast team to develop and integrate new features in Amazon LiveStream and Amazon Live Broadcast services
-                        </li>
-                        <li>
-							Migrate and upgrade the LiveStreamEvent service to a newer Ruby on Rails version, involving but not limited to removing old dependencies, releasing new packages and upgrading the internal build version, resolving conflicts, integration testing
-						</li>
-						<li>
-							Use the feedback from the customers to request, and develop new features in the services, work on the backend infrastructure to provision resources dynamically scale up for live events
-						</li>
-						<li>
-							Toolchain: Ruby on Rails, internal SDK, AWS SDKs, AWS resources, internal build tools 
-						</li>
-                    </ul>
-                </p>
-    </div>
-
-	<div data-date="AUG 2019 – JUN 2020">
-                <h3>Copart </h3>
-                <h4>Software Engineer Intern 2 [ Dallas, Texas ]</h4>
-                <p>
-                    <ul>
-                        <li> 
-                        	Developed the new microservice architecture-based check printing API replacing the process from old dot-matrix systems to the new MICR printers, saving Copart annually >$300K in check printing cost
-                        </li>
-                        <li>
-							Developed the architecture and low-level design for check positive pay process, for Bank of America
-						</li>
-						<li>
-							Developed the WSO2 driven ESB using CQRS design pattern using RabbitMQ for payment transactions
-						</li>
-						<li>
-							Worked on migration of existing codebase into microservices Architecture using Rest APIs, Spring boot, Spring Cloud and designed solutions with ability to hot deploy releases/patches for max server up-time
-						</li>
-						<li>
-							Worked in an agile environment, collaborating with business and product teams in story grooming, reviewing story/acceptance criteria and performance metrics
-						</li>
-                    </ul>
-                </p>
-    </div>
-
-        	<div data-date="AUG 2019 – JUN 2020">
-                        <h3>Copart </h3>
-                        <h4>Software Engineer Intern 2 [ Dallas, Texas ]</h4>
-                        <p>
-                            <ul>
-                                <li> 
-                                	Developed the new microservice architecture-based check printing API replacing the process from old dot-matrix systems to the new MICR printers, saving Copart annually >$300K in check printing cost
-                                </li>
-                                <li>
-        							Developed the architecture and low-level design for check positive pay process, for Bank of America
-        						</li>
-        						<li>
-        							Developed the WSO2 driven ESB using CQRS design pattern using RabbitMQ for payment transactions
-        						</li>
-        						<li>
-        							Worked on migration of existing codebase into microservices Architecture using Rest APIs, Spring boot, Spring Cloud and designed solutions with ability to hot deploy releases/patches for max server up-time
-        						</li>
-        						<li>
-        							Worked in an agile environment, collaborating with business and product teams in story grooming, reviewing story/acceptance criteria and performance metrics
-        						</li>
-                            </ul>
-                        </p>
-            </div>
-
-            <div data-date="JAN 2019 – AUG 2019">
-                        <h3>University of Texas At Arlington</h3>
-                        <h4>Library Student Assistant, [ Arlington, Texas ]</h4>
-                        <p>
-                            <ul>
-                                <li> Aided students/guests with the technology solutions and assist in lending books thorugh Library CRM</li>
-                                <li> Assist and troubleshoot problems with library provided hardware and software to Library patrons</li>
-                                <li> Guided students/staff using databases for research projects, scholarly articles, thesis and dissertation </li>
-                            </ul>
-                        </p>
-            </div>
-        </div>
-    </div>
-    <!-- End #experience -->
-
-    <div id="education">
-        <h2 class="heading">Education</h2>
-        <div class="education-block">
-            <h3>The University of Texas at Arlington</h3>  
-            <span class="education-date">AUG 2018 - MAY 2020</span>
-            <h4>Master of Science in Computer Science</h4>
-            <p>
-                Courses Taken: <i>Design Analysis of Algorithms, Data Analysis and Modelling Techniques, Robotics, Machine Learning, Secure Programming, Cloud Computing for BigData, Artificial Intelligence, Database Implementation Techniques</i>
-            </p>
-        </div>
-        <!-- End .education-block -->
-
-        <div class="education-block">
-            <h3>Uttar Pradesh Technical University</h3>
-            <span class="education-date">JUL 2012 - JUN 2016</span>
-            <h4>Bachelor of Science in Computer Science</h4>
-            <p>
-                Courses Taken: <i>Design Analysis of Algorithms, Computer Networks, Artificial Intelligence, Data Warehousing & Mining, Computer Databases among others </i><br><br>
-                Research project: <i> Image processing project to enhance motion blurred images using advanced convolution techniques</i>                
-            </p>
-        </div>
-        <!-- End .education-block -->
-    </div>
-    <!-- End #education -->
-
-    <div id="projects" class="background-alt">
-        <h2 class="heading">Projects</h2>
-        <div class="container">
-            <div class="row">
-
-                <div class="project shadow-large">
-                    <div class="project-image">
-                        <img src="images/project.jpg" />
-                    </div>
-                    <!-- End .project-image -->
-                    <div class="project-info">
-                        <h3>Machine Learning: Email-SMS Spam/Ham Classifier</h3>
-                        <p>
-                            This is a Naive Bayes classifier project implemented in python which basically classifies a given text/message as spam or ham. This project was for the Machine Learning graduate class.
-                        </p>
-                        <a href="https://github.com/ssrishabh96/Machine-Learning-Email-SMS-Spam-Ham-Classifier">View Project</a>
-                    </div>
-                    <!-- End .project-info -->
-                </div>
-                <!-- End .project -->
-
-                <div class="project shadow-large">
-                    <div class="project-image">
-                        <img src="images/project.jpg" />
-                    </div>
-                    <!-- End .project-image -->
-                    <div class="project-info">
-                        <h3>Cloud Computing: BigData </h3>
-                        <p>
-                            Projects on data management techniques and tools for storing and analyzing very large amounts of data. Implemented using Hadoop MapReduce, Apache Spark Scala, Apache Hive, Apache Pig, Apache GraphX Pregel API
-                        </p>
-                        <a href="https://github.com/ssrishabh96/BigData-Spark-Projects">View Project</a>
-                    </div>
-                    <!-- End .project-info -->
-                </div>
-                <!-- End .project -->
-                <!-- Android projects -->
-
-                <div class="project shadow-large">
-                    <div class="project-image">
-                        <img src="images/project3.png" height="300px" width="300px"/>
-                    </div>
-                    <!-- End .project-image -->
-
-                    <div class="project-info">
-                        <h3>Copy Save for Android</h3>
-                        <p>
-							The app stores persistent clipboard text indefinitely. Everything a user copies in the clipboard is stored forever unless user explicitly deletes it.  Captures the copied data automatically.                        </p>
-                        <a href="https://github.com/ssrishabh96/Copy-Save-for-Android">View Project</a>
-                    </div>
-                    <!-- End .project-info -->
-                </div>
-                <!-- End .project -->
-
-                <div class="project shadow-large">
-                    <div class="project-image">
-                        <img src="images/project4.jpg" height="300px" width="300px"/>
-                    </div>
-                    <!-- End .project-image -->
-
-                    <div class="project-info">
-                        <h3>MediaByte Wallpapers Videos app for Android</h3>
-                        <p>
-							The app lets anyone browse, download royalty free images for free. Provided by Pixabay.
-                        </p>
-                        <a href="https://github.com/ssrishabh96/MediaByte-Wallpapers-app-for-Android">View Project</a>
-                    </div>
-                    <!-- End .project-info -->
-                </div>
-                <!-- End .project -->
-
-                <div class="project shadow-large">
-                    <div class="project-image">
-                        <img src="images/project5.png" height="300px" width="300px"/>
-                    </div>
-                    <!-- End .project-image -->
-
-                    <div class="project-info">
-                        <h3>Brightness app for Android</h3>
-                        <p>
-							Brightness app for Android. The ultimate app to adjust screen brightness or call it a screen dimmer app . The app is a real handy utility for night owls. Awesome custom design makes it really appealing to use.                        </p>
-                        <a href="https://github.com/ssrishabh96/Brightness-App-for-Android">View Project</a>
-                    </div>
-                    <!-- End .project-info -->
-                </div>
-                <!-- End .project -->
-
-
-            </div>
-        </div>
-    </div>
-    <!-- End #projects -->
-
-    <div id="skills">
-        <h2 class="heading">Skills</h2>
         <ul>
-            <li>Java</li>
-            <li>C</li>
-            <li>Ruby on Rails</li>
-            <li>Java Spring Boot</li>
-            <li>RESTful APIs</li>
-            <li>AWS Development</li>
-            <li>Android SDK</li>
-            <li>Amazon AWS</li>
-            <li>Kubernetes</li>
-            <li>Docker</li>
-            <li>ESB WSO2</li>
-            <li>JavaScript</li>
-            <li>JSON</li>
-            <li>Jenkins</li>
-            <li>Dependency Injection (DI) </li>
-            <li>MySQL</li>
-            <li>Git</li>
-            <li>MATLAB</li>
-            <li>BigData</li>
-            <li>Hadoop MapReduce</li>
-            <li>Apache Spark Scala </li>
-            <li>Apache Hive</li>
-            <li>Apache Pig</li>
-            <li>Adobe PhotoShop</li>
-            <li>Design Patterns</li>
-            <li>Firebase back-end</li>
-            <li>SDLC</li>
+          <li>Lead reliability work on the <b>RIM rate-limiting platform</b> protecting <b>100% of Meta's infra services</b> — <b>config canaries and health checks</b> that prevent unintended throttling from config regressions (incl. WhatsApp Business).</li>
+          <li>Expanded capacity by extending RIM rate-limiting hosts onto <b>external GPU clouds (AWS, CoreWeave)</b>, maximizing resource utilization for compute-intensive and <b>model-training workloads</b> through host stacking and service-side optimization.</li>
+          <li>Built an end-to-end <b>real-time alerting system</b> notifying <b>10k+ infra users</b> of resource throttling — enabling near real-time incident detection and <b>50% faster mitigation</b>.</li>
+          <li>Automated the platform for <b>self-service onboarding</b>, with improved monitoring, observability, alerting, and <b>automated SLO provisioning</b> — scaling adoption without scaling operational load.</li>
         </ul>
-    </div>
-    <!-- End #skills -->
+      </div>
 
-    <div id="contact">
-        <h2>Get in Touch</h2>
-        <div id="contact-form">
-            <form method="POST" action="https://formspree.io/f/mdopjonr">
-            	<input type="text" name="name" placeholder="Eg. Jane/John Doe" required/>
-                <input type="hidden" name="_subject" value="Contact request via Portfolio" require />
-                <input type="email" name="_replyto" placeholder="Ex. john@example.com" required />
-                <textarea name="message" placeholder="Your message" required></textarea>
-                <button type="submit">Send</button>
-            </form>
+      <div class="job">
+        <div class="job-top">
+          <div><span class="job-title">Software Engineer II</span> · <span class="job-co">UiPath</span></div>
+          <span class="job-meta">Jan 2022 — Jul 2022 · Austin, TX</span>
         </div>
-        <!-- End #contact-form -->
-    </div>
-    <!-- End #contact -->
+        <ul>
+          <li>Architected and shipped new <b>CloudElements marketplace import/export APIs</b> plus a privacy-aware file extension, unlocking a new buying/selling experience and revenue stream.</li>
+          <li>Cut internal latency SLOs by <b>15%</b> through dependency tuning, code optimization, and removing legacy paths.</li>
+          <li>Integrated <b>mutation testing</b> with 150+ new tests for &gt;95% coverage, improving scalability and reliability.</li>
+        </ul>
+      </div>
 
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-5 copyright">
-                    <p>
-                        Copyright &copy; 2019 Rishabh Agrawal
-                    </p>
-                </div>
-                <div class="col-sm-2 top">
-                    <span id="to-top">
-                        <i class="fa fa-chevron-up" aria-hidden="true"></i>
-                    </span>
-                </div>
-                <div class="col-sm-5 social">
-                    <ul>
-                        <li>
-                            <a href="https://github.com/ssrishabh96" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
-                        </li>
-                        <li>
-                            <a href="https://stackoverflow.com/users/6910831/rishabh-agrawal?tab=profile" target="_blank"><i class="fa fa-stack-overflow" aria-hidden="true"></i></a>
-                        </li>
-                        <li>
-                            <a href="https://www.linkedin.com/in/rishabh-agrawal94" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
-                        </li>
-                      
-                        <li>
-                            <a href="https://twitter.com/rishabh_ag94" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-                        </li>
-                        <li>
-                            <a href="skype:ss.rishabh96?call" target="_blank"><i class="fa fa-skype" aria-hidden="true"></i></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+      <div class="job">
+        <div class="job-top">
+          <div><span class="job-title">Software Engineer</span> · <span class="job-co">Amazon</span></div>
+          <span class="job-meta">Aug 2020 — Jan 2022 · Austin, TX</span>
         </div>
-    </footer>
-    <!-- End footer -->
+        <ul>
+          <li>Built a <b>serverless solution (Lambda, S3, SQS, SNS)</b> to automate international order export documentation, improving data accuracy and export compliance.</li>
+          <li>Added live metrics monitoring and <b>anomaly detection across 20+ KPIs</b> with global alerting for proactive incident detection.</li>
+          <li>Modernized the LiveStream team's Ruby codebase, migrating gems and <b>eliminating recurring cross-site scripting incidents</b>.</li>
+        </ul>
+      </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="js/scripts.min.js"></script>
+      <div class="job">
+        <div class="job-top">
+          <div><span class="job-title">Software Engineer Intern</span> · <span class="job-co">Copart</span></div>
+          <span class="job-meta">Aug 2019 — Jun 2020 · Dallas, TX</span>
+        </div>
+        <ul>
+          <li>Migrated a legacy billing service to <b>Spring Boot APIs with an event-driven architecture</b>, using RabbitMQ/Kafka event processing and WSO2 ESB.</li>
+          <li>Built a microservice that moved check printing from dot-matrix to MICR printers — <b>saving Copart over $300K annually</b>.</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="skills" class="reveal">
+    <div class="sec-head"><span class="num">03</span><h2>Skills &amp; Tooling</h2><span class="line"></span></div>
+    <div class="skill-groups">
+      <div class="skill-card">
+        <h3>Languages</h3>
+        <div class="chips"><span class="chip">Python</span><span class="chip">C++</span><span class="chip">Java</span><span class="chip">Hack</span><span class="chip">Ruby</span></div>
+      </div>
+      <div class="skill-card">
+        <h3>Reliability &amp; Observability</h3>
+        <div class="chips"><span class="chip">SLOs (Config-as-Code)</span><span class="chip">Real-time alerting</span><span class="chip">Anomaly detection</span><span class="chip">Config canaries</span><span class="chip">Health checks</span></div>
+      </div>
+      <div class="skill-card">
+        <h3>Scale &amp; Data Platforms</h3>
+        <div class="chips"><span class="chip">Rate limiting (RIM)</span><span class="chip">Scuba</span><span class="chip">Presto pipelines</span><span class="chip">OneDetection</span><span class="chip">Chronos orchestration</span></div>
+      </div>
+      <div class="skill-card">
+        <h3>Cloud &amp; Infra</h3>
+        <div class="chips"><span class="chip">AWS (Lambda·S3·SQS·SNS)</span><span class="chip">CoreWeave</span><span class="chip">Kubernetes</span><span class="chip">Docker</span><span class="chip">CI/CD</span></div>
+      </div>
+      <div class="skill-card">
+        <h3>Architecture</h3>
+        <div class="chips"><span class="chip">Distributed systems</span><span class="chip">Event-driven (Kafka)</span><span class="chip">Serverless</span><span class="chip">RESTful APIs</span><span class="chip">Microservices</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects" class="reveal">
+    <div class="sec-head"><span class="num">04</span><h2>Projects &amp; Open Source</h2><span class="line"></span></div>
+    <div class="proj-grid">
+
+      <div class="proj">
+        <div class="thumb" style="background-image:url('images/project.jpg')"></div>
+        <div class="proj-body">
+          <div class="proj-tag">Machine Learning · Python</div>
+          <h3>Spam / Ham Classifier</h3>
+          <p>A Naive Bayes text classifier that labels messages as spam or ham, built for a graduate ML course.</p>
+          <a class="proj-link" href="https://github.com/ssrishabh96" target="_blank" rel="noopener">View on GitHub →</a>
+        </div>
+      </div>
+
+      <div class="proj">
+        <div class="thumb ph"><span>{ }</span></div>
+        <div class="proj-body">
+          <div class="proj-tag">Big Data · Distributed</div>
+          <h3>Big Data Pipelines</h3>
+          <p>Storage and analysis of very large datasets using Hadoop MapReduce, Spark (Scala), Hive, Pig, and the GraphX Pregel API.</p>
+          <a class="proj-link" href="https://github.com/ssrishabh96" target="_blank" rel="noopener">View on GitHub →</a>
+        </div>
+      </div>
+
+      <div class="proj">
+        <div class="thumb" style="background-image:url('images/project3.png')"></div>
+        <div class="proj-body">
+          <div class="proj-tag">Android</div>
+          <h3>Copy Save</h3>
+          <p>A persistent clipboard manager that automatically captures and stores everything you copy until you choose to delete it.</p>
+          <a class="proj-link" href="https://github.com/ssrishabh96" target="_blank" rel="noopener">View on GitHub →</a>
+        </div>
+      </div>
+
+      <div class="proj">
+        <div class="thumb" style="background-image:url('images/project4.jpg')"></div>
+        <div class="proj-body">
+          <div class="proj-tag">Android</div>
+          <h3>MediaByte</h3>
+          <p>Browse and download royalty-free images and video, powered by the Pixabay API.</p>
+          <a class="proj-link" href="https://github.com/ssrishabh96" target="_blank" rel="noopener">View on GitHub →</a>
+        </div>
+      </div>
+
+      <div class="proj">
+        <div class="thumb" style="background-image:url('images/project5.png')"></div>
+        <div class="proj-body">
+          <div class="proj-tag">Android</div>
+          <h3>Brightness</h3>
+          <p>A handy screen-dimmer utility for night owls, with a custom UI for fine brightness control.</p>
+          <a class="proj-link" href="https://github.com/ssrishabh96" target="_blank" rel="noopener">View on GitHub →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="education" class="reveal">
+    <div class="sec-head"><span class="num">05</span><h2>Education</h2><span class="line"></span></div>
+    <div class="edu-grid">
+      <div class="edu">
+        <h3>The University of Texas at Arlington</h3>
+        <div class="deg">M.S. in Computer Science</div>
+        <div class="when">Jul 2018 — Jul 2020</div>
+      </div>
+      <div class="edu">
+        <h3>GLBITM (UPTU), India</h3>
+        <div class="deg">B.S. in Computer Science</div>
+        <div class="when">Jul 2012 — Jul 2016</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact reveal">
+    <h2>Let's talk infrastructure.</h2>
+    <p>Open to conversations about reliability, scale, and the systems that will power the AI era. The fastest way to reach me:</p>
+    <div class="social-row">
+      <a class="social" href="mailto:ss.rishabh94@gmail.com">✉ Email</a>
+      <a class="social" href="https://www.linkedin.com/in/rishabh-agrawal94" target="_blank" rel="noopener">in LinkedIn</a>
+      <a class="social" href="https://github.com/ssrishabh96" target="_blank" rel="noopener">⌥ GitHub</a>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="mono">Designed &amp; built by Rishabh Agrawal · © <span id="yr"></span></div>
+</footer>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+  // smooth reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
 </body>
-
 </html>
