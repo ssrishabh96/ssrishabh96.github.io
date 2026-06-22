@@ -1,181 +1,189 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Rishabh Agrawal — Production Engineer</title>
-<meta name="description" content="Rishabh Agrawal — Production Engineer at Meta. Reliability, scalability, and observability for large-scale infrastructure, increasingly at the intersection of infra and AI." />
+<meta name="description" content="Rishabh Agrawal — Production Engineer at Meta. Reliability, scalability, and capacity for large-scale infrastructure, at the intersection of infra and AI." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
 <style>
+  /* ---------- LIGHT (default) ---------- */
   :root {
-    --bg: #0b0e14;
-    --bg-soft: #11151f;
-    --card: #151a26;
-    --card-hover: #1a2130;
-    --border: #232b3a;
-    --text: #e6e9ef;
-    --muted: #9aa4b8;
-    --faint: #6b7488;
-    --accent: #5b9dff;
-    --accent-2: #7c5cff;
-    --accent-soft: rgba(91,157,255,0.12);
-    --glow: rgba(124,92,255,0.18);
-    --radius: 16px;
-    --maxw: 920px;
+    --bg: #ffffff;
+    --bg-soft: #f6f7f9;
+    --card: #ffffff;
+    --border: #e6e8ec;
+    --text: #15181d;
+    --muted: #5b6673;
+    --faint: #8b94a3;
+    --accent: #2f6df6;
+    --accent-soft: rgba(47,109,246,0.08);
+    --chip-bg: #f2f4f7;
+    --shadow: 0 1px 2px rgba(16,24,40,0.04), 0 8px 24px rgba(16,24,40,0.06);
+    --radius: 14px;
+    --maxw: 880px;
+    --font: 'Inter', system-ui, -apple-system, sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+    --dotglow: rgba(47,109,246,0);
   }
+  /* ---------- MATRIX ---------- */
+  html[data-theme="matrix"] {
+    --bg: #000600;
+    --bg-soft: #03140a;
+    --card: #04140a;
+    --border: #0f3d22;
+    --text: #38ff7a;
+    --muted: #21c25a;
+    --faint: #169a45;
+    --accent: #4dff86;
+    --accent-soft: rgba(57,255,122,0.08);
+    --chip-bg: #051c0e;
+    --shadow: 0 0 0 1px rgba(57,255,122,0.08), 0 0 24px rgba(57,255,122,0.10);
+    --font: 'JetBrains Mono', monospace;
+    --mono: 'JetBrains Mono', monospace;
+    --dotglow: rgba(57,255,122,0.55);
+  }
+
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: var(--font);
     line-height: 1.65;
     -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
+    transition: background 0.35s ease, color 0.35s ease;
   }
   a { color: inherit; text-decoration: none; }
-  ::selection { background: var(--accent); color: #fff; }
+  ::selection { background: var(--accent); color: var(--bg); }
 
-  /* ambient background */
-  .bg-orbs { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
-  .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; }
-  .orb.a { width: 480px; height: 480px; background: radial-gradient(circle, rgba(91,157,255,0.35), transparent 70%); top: -120px; right: -80px; }
-  .orb.b { width: 420px; height: 420px; background: radial-gradient(circle, rgba(124,92,255,0.30), transparent 70%); bottom: 10%; left: -120px; }
+  /* matrix scanline + rain veil */
+  .fx { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0; transition: opacity 0.4s; }
+  html[data-theme="matrix"] .fx { opacity: 1; }
+  html[data-theme="matrix"] #rain { display: block; }
+  #rain { display: none; position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.18; }
+  .scan { position: fixed; inset: 0; z-index: 1; pointer-events: none; background: repeating-linear-gradient(to bottom, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 2px, rgba(0,0,0,0.18) 3px); opacity: 0; transition: opacity 0.4s; }
+  html[data-theme="matrix"] .scan { opacity: 1; }
 
-  .wrap { position: relative; z-index: 1; max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+  .wrap { position: relative; z-index: 2; max-width: var(--maxw); margin: 0 auto; padding: 0 28px; }
 
   /* nav */
-  nav {
-    position: sticky; top: 0; z-index: 50;
-    backdrop-filter: blur(12px);
-    background: rgba(11,14,20,0.72);
-    border-bottom: 1px solid var(--border);
-  }
-  .nav-inner { max-width: var(--maxw); margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+  nav { position: sticky; top: 0; z-index: 50; backdrop-filter: blur(10px); background: color-mix(in srgb, var(--bg) 80%, transparent); border-bottom: 1px solid var(--border); }
+  .nav-inner { max-width: var(--maxw); margin: 0 auto; padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; }
   .brand { font-weight: 700; letter-spacing: -0.02em; font-size: 1.05rem; }
   .brand span { color: var(--accent); }
-  .nav-links { display: flex; gap: 26px; }
+  .nav-right { display: flex; align-items: center; gap: 22px; }
+  .nav-links { display: flex; gap: 22px; }
   .nav-links a { color: var(--muted); font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
   .nav-links a:hover { color: var(--text); }
-  @media (max-width: 640px) { .nav-links { display: none; } }
+  @media (max-width: 680px) { .nav-links { display: none; } }
+
+  /* theme toggle */
+  .theme-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--mono); font-size: 0.78rem; font-weight: 500;
+    color: var(--text); background: var(--bg-soft);
+    border: 1px solid var(--border); padding: 7px 12px; border-radius: 9px;
+    cursor: pointer; transition: all 0.2s; white-space: nowrap;
+  }
+  .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .theme-btn .ico { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 8px var(--dotglow); }
 
   /* hero */
-  header.hero { padding: 90px 0 70px; }
-  .eyebrow {
-    display: inline-flex; align-items: center; gap: 8px;
-    font-family: 'JetBrains Mono', monospace; font-size: 0.78rem;
-    color: var(--accent); background: var(--accent-soft);
-    border: 1px solid rgba(91,157,255,0.25); padding: 6px 14px; border-radius: 999px;
-    margin-bottom: 26px;
-  }
-  .dot { width: 7px; height: 7px; border-radius: 50%; background: #36d399; box-shadow: 0 0 0 0 rgba(54,211,153,0.6); animation: pulse 2s infinite; }
-  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(54,211,153,0.5);} 70%{box-shadow:0 0 0 8px rgba(54,211,153,0);} 100%{box-shadow:0 0 0 0 rgba(54,211,153,0);} }
-  h1 { font-size: clamp(2.4rem, 6vw, 3.9rem); font-weight: 800; letter-spacing: -0.035em; line-height: 1.05; margin-bottom: 8px; }
-  .pronounce { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--faint); margin-bottom: 20px; }
-  .role { font-size: clamp(1.1rem, 2.6vw, 1.45rem); font-weight: 600; color: var(--muted); margin-bottom: 26px; }
+  header.hero { padding: 84px 0 52px; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 0.78rem; color: var(--accent); background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); padding: 6px 13px; border-radius: 999px; margin-bottom: 24px; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--dotglow); }
+  h1 { font-size: clamp(2.3rem, 6vw, 3.6rem); font-weight: 800; letter-spacing: -0.035em; line-height: 1.05; margin-bottom: 16px; }
+  html[data-theme="matrix"] h1 { text-shadow: 0 0 16px rgba(57,255,122,0.45); }
+  .role { font-size: clamp(1.05rem, 2.4vw, 1.35rem); font-weight: 600; color: var(--muted); margin-bottom: 22px; }
   .role b { color: var(--text); }
-  .lede { font-size: 1.08rem; color: var(--muted); max-width: 660px; margin-bottom: 34px; }
+  .lede { font-size: 1.05rem; color: var(--muted); max-width: 640px; margin-bottom: 30px; }
   .lede strong { color: var(--text); font-weight: 600; }
-  .cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
-  .btn { display: inline-flex; align-items: center; gap: 9px; padding: 12px 22px; border-radius: 11px; font-weight: 600; font-size: 0.95rem; transition: transform 0.15s, background 0.2s, border-color 0.2s; border: 1px solid transparent; }
-  .btn.primary { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #fff; box-shadow: 0 8px 30px var(--glow); }
-  .btn.primary:hover { transform: translateY(-2px); }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 11px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 20px; border-radius: 10px; font-weight: 600; font-size: 0.93rem; transition: all 0.18s; border: 1px solid transparent; cursor: pointer; }
+  .btn.primary { background: var(--accent); color: var(--bg); }
+  .btn.primary:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
   .btn.ghost { background: var(--card); border-color: var(--border); color: var(--text); }
-  .btn.ghost:hover { background: var(--card-hover); border-color: var(--accent); transform: translateY(-2px); }
+  .btn.ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
 
-  /* section */
-  section { padding: 56px 0; }
-  .sec-head { display: flex; align-items: center; gap: 14px; margin-bottom: 38px; }
-  .sec-head h2 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
-  .sec-head .num { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--accent); }
-  .sec-head .line { flex: 1; height: 1px; background: linear-gradient(90deg, var(--border), transparent); }
+  /* sections */
+  section { padding: 50px 0; }
+  .sec-head { display: flex; align-items: center; gap: 13px; margin-bottom: 32px; }
+  .sec-head h2 { font-size: 1.45rem; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+  .sec-head .num { font-family: var(--mono); font-size: 0.8rem; color: var(--accent); }
+  .sec-head .line { flex: 1; height: 1px; background: var(--border); }
 
   /* about */
-  .about-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 36px; align-items: start; }
+  .about-grid { display: grid; grid-template-columns: 1.7fr 1fr; gap: 34px; align-items: start; }
   @media (max-width: 760px) { .about-grid { grid-template-columns: 1fr; } }
-  .about-grid p { color: var(--muted); margin-bottom: 16px; }
+  .about-grid p { color: var(--muted); margin-bottom: 15px; }
   .about-grid p strong { color: var(--text); font-weight: 600; }
-  .facts { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; }
-  .fact { display: flex; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--border); font-size: 0.92rem; }
+  .facts { background: var(--bg-soft); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+  .fact { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
   .fact:last-child { border-bottom: none; }
-  .fact .k { color: var(--faint); min-width: 78px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; padding-top: 2px; }
+  .fact .k { color: var(--faint); min-width: 70px; font-family: var(--mono); font-size: 0.78rem; padding-top: 2px; }
   .fact .v { color: var(--text); }
 
-  /* experience timeline */
+  /* timeline */
   .timeline { position: relative; }
-  .job { position: relative; padding: 0 0 12px 28px; margin-bottom: 26px; border-left: 2px solid var(--border); }
+  .job { position: relative; padding: 0 0 6px 26px; margin-bottom: 24px; border-left: 2px solid var(--border); }
   .job:last-child { margin-bottom: 0; }
-  .job::before { content: ''; position: absolute; left: -7px; top: 4px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px var(--bg); }
-  .job.current::before { background: #36d399; }
-  .job-top { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 4px; }
-  .job-title { font-size: 1.12rem; font-weight: 700; }
+  .job::before { content: ''; position: absolute; left: -7px; top: 5px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px var(--bg), 0 0 10px var(--dotglow); }
+  .job-top { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 3px; }
+  .job-title { font-size: 1.08rem; font-weight: 700; }
   .job-co { color: var(--accent); font-weight: 600; }
-  .job-meta { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--faint); }
-  .job ul { list-style: none; margin-top: 12px; }
-  .job li { position: relative; padding-left: 20px; color: var(--muted); font-size: 0.96rem; margin-bottom: 9px; }
+  .job-meta { font-family: var(--mono); font-size: 0.77rem; color: var(--faint); }
+  .job ul { list-style: none; margin-top: 11px; }
+  .job li { position: relative; padding-left: 19px; color: var(--muted); font-size: 0.94rem; margin-bottom: 8px; }
   .job li::before { content: '▹'; position: absolute; left: 0; color: var(--accent); }
   .job li b { color: var(--text); font-weight: 600; }
 
   /* skills */
-  .skill-groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
-  .skill-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; transition: border-color 0.2s, transform 0.2s; }
+  .skill-groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; }
+  .skill-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); transition: transform 0.2s, border-color 0.2s; }
   .skill-card:hover { border-color: var(--accent); transform: translateY(-3px); }
-  .skill-card h3 { font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--faint); margin-bottom: 14px; font-weight: 600; }
-  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
-  .chip { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; background: var(--bg-soft); border: 1px solid var(--border); color: var(--text); padding: 5px 11px; border-radius: 8px; }
-
-  /* projects */
-  .proj-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
-  .proj { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s, border-color 0.2s; }
-  .proj:hover { transform: translateY(-4px); border-color: var(--accent); }
-  .proj .thumb { height: 140px; background: var(--bg-soft); background-size: cover; background-position: center; border-bottom: 1px solid var(--border); }
-  .proj .thumb.ph { display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #1a2130, #11151f); }
-  .proj .thumb.ph span { font-family: 'JetBrains Mono', monospace; color: var(--accent); font-size: 1.6rem; }
-  .proj-body { padding: 18px; display: flex; flex-direction: column; flex: 1; }
-  .proj-tag { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--accent); margin-bottom: 7px; }
-  .proj-body h3 { font-size: 1.02rem; font-weight: 700; margin-bottom: 8px; }
-  .proj-body p { color: var(--muted); font-size: 0.88rem; flex: 1; margin-bottom: 14px; }
-  .proj-link { font-size: 0.85rem; font-weight: 600; color: var(--accent); display: inline-flex; align-items: center; gap: 6px; }
+  .skill-card h3 { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--faint); margin-bottom: 13px; font-weight: 600; }
+  .chips { display: flex; flex-wrap: wrap; gap: 7px; }
+  .chip { font-family: var(--mono); font-size: 0.78rem; background: var(--chip-bg); border: 1px solid var(--border); color: var(--text); padding: 5px 10px; border-radius: 7px; }
 
   /* education */
-  .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-  @media (max-width: 640px) { .edu-grid { grid-template-columns: 1fr; } }
-  .edu { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; }
-  .edu h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 4px; }
-  .edu .deg { color: var(--accent); font-weight: 500; margin-bottom: 8px; font-size: 0.95rem; }
-  .edu .when { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--faint); }
+  .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 600px) { .edu-grid { grid-template-columns: 1fr; } }
+  .edu { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); }
+  .edu h3 { font-size: 1.02rem; font-weight: 700; margin-bottom: 4px; }
+  .edu .deg { color: var(--accent); font-weight: 500; margin-bottom: 7px; font-size: 0.93rem; }
+  .edu .when { font-family: var(--mono); font-size: 0.77rem; color: var(--faint); }
 
   /* contact */
-  .contact { text-align: center; padding: 70px 0 40px; }
-  .contact h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 14px; }
-  .contact p { color: var(--muted); max-width: 480px; margin: 0 auto 30px; }
-  .social-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-  .social { display: inline-flex; align-items: center; gap: 9px; padding: 12px 20px; background: var(--card); border: 1px solid var(--border); border-radius: 11px; font-weight: 600; font-size: 0.92rem; transition: transform 0.15s, border-color 0.2s, color 0.2s; }
-  .social:hover { transform: translateY(-2px); border-color: var(--accent); color: var(--accent); }
+  .contact { text-align: center; padding: 64px 0 30px; }
+  .contact h2 { font-size: clamp(1.7rem, 4vw, 2.4rem); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 13px; }
+  .contact p { color: var(--muted); max-width: 460px; margin: 0 auto 26px; }
+  .social-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .social { display: inline-flex; align-items: center; gap: 8px; padding: 11px 18px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; font-weight: 600; font-size: 0.9rem; box-shadow: var(--shadow); transition: all 0.18s; }
+  .social:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
 
-  footer { text-align: center; padding: 30px 0 50px; color: var(--faint); font-size: 0.82rem; }
-  footer .mono { font-family: 'JetBrains Mono', monospace; }
-
-  /* reveal */
-  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
-  .reveal.in { opacity: 1; transform: none; }
-  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } .orb { display: none; } }
+  footer { text-align: center; padding: 28px 0 46px; color: var(--faint); font-size: 0.82rem; font-family: var(--mono); }
 </style>
 </head>
 <body>
-<div class="bg-orbs"><div class="orb a"></div><div class="orb b"></div></div>
+<canvas id="rain"></canvas>
+<div class="scan"></div>
 
 <nav>
   <div class="nav-inner">
     <div class="brand">Rishabh<span>.</span></div>
-    <div class="nav-links">
-      <a href="#about">About</a>
-      <a href="#experience">Experience</a>
-      <a href="#skills">Skills</a>
-      <a href="#projects">Projects</a>
-      <a href="#contact">Contact</a>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#experience">Experience</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
+        <span class="ico"></span><span id="themeLabel">Matrix mode</span>
+      </button>
     </div>
   </div>
 </nav>
@@ -185,7 +193,6 @@
   <header class="hero">
     <div class="eyebrow"><span class="dot"></span> Production Engineer · Meta</div>
     <h1>Rishabh Agrawal</h1>
-    <div class="pronounce">/ ˈrɪʃəb / — "Rishab," like <em>Bishop</em></div>
     <div class="role">I build <b>rate-limiting and capacity infrastructure</b> that keeps large-scale systems reliable — and squeezes the most out of every GPU and host.</div>
     <p class="lede">Production Engineer at <strong>Meta</strong>, working on the <strong>rate-limiting platform (RIM)</strong> that protects <strong>100% of Meta's infra services</strong>. My focus is <strong>reliability, scalability, and automation</strong>: config canaries and health checks that stop outages before they start, real-time alerting across the fleet, and capacity work that maximizes resource utilization for compute-hungry workloads — including <strong>model-training infrastructure on external GPU clouds</strong>.</p>
     <div class="cta-row">
@@ -195,7 +202,7 @@
     </div>
   </header>
 
-  <section id="about" class="reveal">
+  <section id="about">
     <div class="sec-head"><span class="num">01</span><h2>About</h2><span class="line"></span></div>
     <div class="about-grid">
       <div>
@@ -212,7 +219,7 @@
     </div>
   </section>
 
-  <section id="experience" class="reveal">
+  <section id="experience">
     <div class="sec-head"><span class="num">02</span><h2>Experience</h2><span class="line"></span></div>
     <div class="timeline">
 
@@ -222,10 +229,10 @@
           <span class="job-meta">Jul 2022 — Present · Menlo Park, CA</span>
         </div>
         <ul>
-          <li>Lead reliability work on the <b>RIM rate-limiting platform</b> protecting <b>100% of Meta's infra services</b> — <b>config canaries and health checks</b> that prevent unintended throttling from config regressions (incl. WhatsApp Business).</li>
-          <li>Expanded capacity by extending RIM rate-limiting hosts onto <b>external GPU clouds (AWS, CoreWeave)</b>, maximizing resource utilization for compute-intensive and <b>model-training workloads</b> through host stacking and service-side optimization.</li>
+          <li>Lead reliability work on the <b>RIM rate-limiting platform</b> protecting <b>100% of Meta's infra services</b> — <b>config canaries and health checks</b> that prevent unintended throttling from config regressions.</li>
+          <li>Expanded capacity by extending RIM rate-limiting hosts onto <b>external GPU clouds (AWS, CoreWeave)</b>, maximizing resource utilization for compute-intensive and <b>model-training workloads</b>.</li>
           <li>Built an end-to-end <b>real-time alerting system</b> notifying <b>10k+ infra users</b> of resource throttling — enabling near real-time incident detection and <b>50% faster mitigation</b>.</li>
-          <li>Automated the platform for <b>self-service onboarding</b>, with improved monitoring, observability, alerting, and <b>automated SLO provisioning</b> — scaling adoption without scaling operational load.</li>
+          <li>Automated the platform for <b>self-service onboarding</b>, with improved observability and <b>automated SLO provisioning</b> — scaling adoption without scaling operational load.</li>
         </ul>
       </div>
 
@@ -235,9 +242,8 @@
           <span class="job-meta">Jan 2022 — Jul 2022 · Austin, TX</span>
         </div>
         <ul>
-          <li>Architected and shipped new <b>CloudElements marketplace import/export APIs</b> plus a privacy-aware file extension, unlocking a new buying/selling experience and revenue stream.</li>
-          <li>Cut internal latency SLOs by <b>15%</b> through dependency tuning, code optimization, and removing legacy paths.</li>
-          <li>Integrated <b>mutation testing</b> with 150+ new tests for &gt;95% coverage, improving scalability and reliability.</li>
+          <li>Architected and shipped new <b>CloudElements marketplace import/export APIs</b> plus a privacy-aware file extension, unlocking a new revenue stream.</li>
+          <li>Cut internal latency SLOs by <b>15%</b> and integrated <b>mutation testing</b> with 150+ new tests for &gt;95% coverage.</li>
         </ul>
       </div>
 
@@ -247,9 +253,8 @@
           <span class="job-meta">Aug 2020 — Jan 2022 · Austin, TX</span>
         </div>
         <ul>
-          <li>Built a <b>serverless solution (Lambda, S3, SQS, SNS)</b> to automate international order export documentation, improving data accuracy and export compliance.</li>
-          <li>Added live metrics monitoring and <b>anomaly detection across 20+ KPIs</b> with global alerting for proactive incident detection.</li>
-          <li>Modernized the LiveStream team's Ruby codebase, migrating gems and <b>eliminating recurring cross-site scripting incidents</b>.</li>
+          <li>Built a <b>serverless solution (Lambda, S3, SQS, SNS)</b> to automate international order export documentation and compliance.</li>
+          <li>Added live metrics monitoring and <b>anomaly detection across 20+ KPIs</b> with global alerting.</li>
         </ul>
       </div>
 
@@ -259,116 +264,55 @@
           <span class="job-meta">Aug 2019 — Jun 2020 · Dallas, TX</span>
         </div>
         <ul>
-          <li>Migrated a legacy billing service to <b>Spring Boot APIs with an event-driven architecture</b>, using RabbitMQ/Kafka event processing and WSO2 ESB.</li>
-          <li>Built a microservice that moved check printing from dot-matrix to MICR printers — <b>saving Copart over $300K annually</b>.</li>
+          <li>Migrated a legacy billing service to <b>Spring Boot APIs with an event-driven architecture</b> (RabbitMQ/Kafka).</li>
+          <li>Built a microservice that moved check printing to MICR printers — <b>saving over $300K annually</b>.</li>
         </ul>
       </div>
 
     </div>
   </section>
 
-  <section id="skills" class="reveal">
+  <section id="skills">
     <div class="sec-head"><span class="num">03</span><h2>Skills &amp; Tooling</h2><span class="line"></span></div>
     <div class="skill-groups">
       <div class="skill-card">
         <h3>Languages</h3>
-        <div class="chips"><span class="chip">Python</span><span class="chip">C++</span><span class="chip">Java</span><span class="chip">Hack</span><span class="chip">Ruby</span></div>
+        <div class="chips"><span class="chip">Python</span><span class="chip">C++</span><span class="chip">Java</span><span class="chip">Hack</span></div>
       </div>
       <div class="skill-card">
         <h3>Reliability &amp; Observability</h3>
-        <div class="chips"><span class="chip">SLOs (Config-as-Code)</span><span class="chip">Real-time alerting</span><span class="chip">Anomaly detection</span><span class="chip">Config canaries</span><span class="chip">Health checks</span></div>
+        <div class="chips"><span class="chip">SLOs as code</span><span class="chip">Real-time alerting</span><span class="chip">Anomaly detection</span><span class="chip">Config canaries</span></div>
       </div>
       <div class="skill-card">
-        <h3>Scale &amp; Data Platforms</h3>
-        <div class="chips"><span class="chip">Rate limiting (RIM)</span><span class="chip">Scuba</span><span class="chip">Presto pipelines</span><span class="chip">OneDetection</span><span class="chip">Chronos orchestration</span></div>
+        <h3>Scale &amp; Data</h3>
+        <div class="chips"><span class="chip">Rate limiting (RIM)</span><span class="chip">Scuba</span><span class="chip">Presto</span><span class="chip">Distributed systems</span></div>
       </div>
       <div class="skill-card">
         <h3>Cloud &amp; Infra</h3>
-        <div class="chips"><span class="chip">AWS (Lambda·S3·SQS·SNS)</span><span class="chip">CoreWeave</span><span class="chip">Kubernetes</span><span class="chip">Docker</span><span class="chip">CI/CD</span></div>
-      </div>
-      <div class="skill-card">
-        <h3>Architecture</h3>
-        <div class="chips"><span class="chip">Distributed systems</span><span class="chip">Event-driven (Kafka)</span><span class="chip">Serverless</span><span class="chip">RESTful APIs</span><span class="chip">Microservices</span></div>
+        <div class="chips"><span class="chip">AWS</span><span class="chip">CoreWeave</span><span class="chip">Kubernetes</span><span class="chip">Docker</span><span class="chip">CI/CD</span></div>
       </div>
     </div>
   </section>
 
-  <section id="projects" class="reveal">
-    <div class="sec-head"><span class="num">04</span><h2>Projects &amp; Open Source</h2><span class="line"></span></div>
-    <div class="proj-grid">
-
-      <div class="proj">
-        <div class="thumb" style="background-image:url('images/project.jpg')"></div>
-        <div class="proj-body">
-          <div class="proj-tag">Machine Learning · Python</div>
-          <h3>Spam / Ham Classifier</h3>
-          <p>A Naive Bayes text classifier that labels messages as spam or ham, built for a graduate ML course.</p>
-          <a class="proj-link" href="https://github.com/ssrishabh96" target="_blank" rel="noopener">View on GitHub →</a>
-        </div>
-      </div>
-
-      <div class="proj">
-        <div class="thumb ph"><span>{ }</span></div>
-        <div class="proj-body">
-          <div class="proj-tag">Big Data · Distributed</div>
-          <h3>Big Data Pipelines</h3>
-          <p>Storage and analysis of very large datasets using Hadoop MapReduce, Spark (Scala), Hive, Pig, and the GraphX Pregel API.</p>
-          <a class="proj-link" href="https://github.com/ssrishabh96" target="_blank" rel="noopener">View on GitHub →</a>
-        </div>
-      </div>
-
-      <div class="proj">
-        <div class="thumb" style="background-image:url('images/project3.png')"></div>
-        <div class="proj-body">
-          <div class="proj-tag">Android</div>
-          <h3>Copy Save</h3>
-          <p>A persistent clipboard manager that automatically captures and stores everything you copy until you choose to delete it.</p>
-          <a class="proj-link" href="https://github.com/ssrishabh96" target="_blank" rel="noopener">View on GitHub →</a>
-        </div>
-      </div>
-
-      <div class="proj">
-        <div class="thumb" style="background-image:url('images/project4.jpg')"></div>
-        <div class="proj-body">
-          <div class="proj-tag">Android</div>
-          <h3>MediaByte</h3>
-          <p>Browse and download royalty-free images and video, powered by the Pixabay API.</p>
-          <a class="proj-link" href="https://github.com/ssrishabh96" target="_blank" rel="noopener">View on GitHub →</a>
-        </div>
-      </div>
-
-      <div class="proj">
-        <div class="thumb" style="background-image:url('images/project5.png')"></div>
-        <div class="proj-body">
-          <div class="proj-tag">Android</div>
-          <h3>Brightness</h3>
-          <p>A handy screen-dimmer utility for night owls, with a custom UI for fine brightness control.</p>
-          <a class="proj-link" href="https://github.com/ssrishabh96" target="_blank" rel="noopener">View on GitHub →</a>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <section id="education" class="reveal">
-    <div class="sec-head"><span class="num">05</span><h2>Education</h2><span class="line"></span></div>
+  <section id="education">
+    <div class="sec-head"><span class="num">04</span><h2>Education</h2><span class="line"></span></div>
     <div class="edu-grid">
       <div class="edu">
         <h3>The University of Texas at Arlington</h3>
         <div class="deg">M.S. in Computer Science</div>
-        <div class="when">Jul 2018 — Jul 2020</div>
+        <div class="when">2018 — 2020</div>
       </div>
       <div class="edu">
         <h3>GLBITM (UPTU), India</h3>
         <div class="deg">B.S. in Computer Science</div>
-        <div class="when">Jul 2012 — Jul 2016</div>
+        <div class="when">2012 — 2016</div>
       </div>
     </div>
   </section>
 
-  <section id="contact" class="contact reveal">
+  <section id="contact" class="contact">
     <h2>Let's talk infrastructure.</h2>
-    <p>Open to conversations about reliability, scale, and the systems that will power the AI era. The fastest way to reach me:</p>
+    <p>Open to conversations about reliability, scale, and the systems that will power the AI era.</p>
     <div class="social-row">
       <a class="social" href="mailto:ss.rishabh94@gmail.com">✉ Email</a>
       <a class="social" href="https://www.linkedin.com/in/rishabh-agrawal94" target="_blank" rel="noopener">in LinkedIn</a>
@@ -378,17 +322,50 @@
 
 </div>
 
-<footer>
-  <div class="mono">Designed &amp; built by Rishabh Agrawal · © <span id="yr"></span></div>
-</footer>
+<footer>Designed &amp; built by Rishabh Agrawal · © <span id="yr"></span></footer>
 
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
-  // smooth reveal on scroll
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // ---- theme toggle ----
+  const root = document.documentElement;
+  const label = document.getElementById('themeLabel');
+  const btn = document.getElementById('themeToggle');
+  function setTheme(t) {
+    root.setAttribute('data-theme', t);
+    label.textContent = t === 'matrix' ? 'Light mode' : 'Matrix mode';
+    try { localStorage.setItem('theme', t); } catch(e){}
+    if (t === 'matrix') startRain(); else stopRain();
+  }
+  btn.addEventListener('click', () => {
+    setTheme(root.getAttribute('data-theme') === 'matrix' ? 'light' : 'matrix');
+  });
+  try { const saved = localStorage.getItem('theme'); if (saved) setTheme(saved); } catch(e){}
+
+  // ---- matrix rain ----
+  const canvas = document.getElementById('rain');
+  const ctx = canvas.getContext('2d');
+  let cols, drops, raf, running = false;
+  const glyphs = 'ｱｲｳｴｵｶｷｸｹｺｻｼｽ0123456789ABCDEFｦﾝ';
+  function resize() {
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    cols = Math.floor(canvas.width / 14);
+    drops = Array(cols).fill(0).map(() => Math.random() * -canvas.height);
+  }
+  function draw() {
+    ctx.fillStyle = 'rgba(0,6,0,0.08)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#38ff7a'; ctx.font = '14px JetBrains Mono, monospace';
+    for (let i = 0; i < cols; i++) {
+      const ch = glyphs[Math.floor(Math.random() * glyphs.length)];
+      ctx.fillText(ch, i * 14, drops[i]);
+      if (drops[i] > canvas.height && Math.random() > 0.975) drops[i] = 0;
+      drops[i] += 14;
+    }
+    raf = requestAnimationFrame(draw);
+  }
+  function startRain() { if (running) return; running = true; resize(); window.addEventListener('resize', resize); draw(); }
+  function stopRain() { running = false; cancelAnimationFrame(raf); window.removeEventListener('resize', resize); ctx && ctx.clearRect(0,0,canvas.width,canvas.height); }
 </script>
 </body>
 </html>
